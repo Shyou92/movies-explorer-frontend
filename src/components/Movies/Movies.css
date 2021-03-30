@@ -1,0 +1,31 @@
+.separate__line {
+  width: calc(89%);
+  margin: 40px auto 70px;
+  border-top: none;
+  border-bottom: 0.5px solid #e8e8e8;
+}
+
+.movie__button-wrapper {
+  display: flex;
+}
+
+.movie__open-more {
+  width: 320px;
+  margin: 0 auto;
+  border: 1px solid #e8e8e8;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  height: 36px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  background-color: #fff;
+}
+
+@media screen and (max-width: 500px) {
+  .movie__open-more {
+    width: 240px;
+  }
+}

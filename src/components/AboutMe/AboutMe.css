@@ -1,0 +1,163 @@
+.aboutMe {
+  margin-top: 110px;
+}
+
+.aboutMe__container-info {
+  margin: 66px calc(5%) 100px;
+  display: flex;
+  width: calc(90%);
+}
+
+.aboutMe__student {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* width: 600px; */
+}
+
+.promo__header_aboutMe {
+  padding: 0;
+  margin: 0 0 18px;
+}
+
+.aboutMe__subheading {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  margin: 0 0 26px;
+}
+
+.aboutProject__container-text_aboutMe {
+  width: 600px;
+  line-height: 22px;
+}
+
+.aboutMe__links-list {
+  margin: 100px 0 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
+}
+
+.aboutMe__links {
+  margin-right: 20px;
+}
+
+.aboutMe__links-item {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000;
+  text-decoration: none;
+}
+
+.aboutMe__photo {
+  width: 270px;
+  height: 327px;
+  align-self: flex-end;
+  object-fit: contain;
+  flex-basis: 60%;
+  object-position: top right;
+}
+
+.aboutMe__links:nth-last-of-type(1) {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 960px) {
+  .aboutProject__container-text_aboutMe {
+    width: 500px;
+  }
+
+  .aboutMe__photo {
+    width: 255px;
+    height: 307px;
+  }
+}
+
+@media screen and (max-width: 810px) {
+  .aboutProject__header {
+    font-size: 22px;
+    line-height: 27px;
+  }
+
+  .promo__header_aboutMe {
+    font-size: 40px;
+    line-height: 40px;
+  }
+
+  .aboutMe__subheading {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .aboutProject__container-text_aboutMe {
+    width: 364px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .aboutMe__photo {
+    width: 292px;
+    height: 352px;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  .aboutProject__container-text_aboutMe {
+    width: 292px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .aboutProject__header {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .aboutMe__container-info {
+    flex-direction: column-reverse;
+    margin-bottom: 69px;
+  }
+
+  .promo__header_aboutMe {
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  .aboutProject__container-text_aboutMe {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .aboutMe__subheading {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .aboutMe__photo {
+    width: 292px;
+    height: 352px;
+    margin: 0 auto 40px;
+  }
+
+  .aboutMe__student {
+    margin: 0;
+    align-items: center;
+  }
+
+  .aboutMe__links-list {
+    margin-top: 40px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .aboutMe__student {
+    margin: 0;
+    align-items: start;
+  }
+}

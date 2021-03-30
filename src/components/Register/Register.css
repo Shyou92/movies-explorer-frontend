@@ -1,0 +1,34 @@
+.auth-form__submit_login {
+  margin-top: 70px;
+}
+
+@media screen and (min-width: 501px) and (max-width: 767px) {
+  .signup {
+    width: 320px;
+    margin: 0 auto;
+  }
+
+  .auth-form {
+    width: 320px;
+    margin: 40px auto 0;
+  }
+
+  .auth-form__submit_login {
+    margin-top: 157px;
+  }
+
+  .auth-form__section {
+    width: 100%;
+  }
+
+  .auth-form__input {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .signup {
+    width: 260px;
+    margin: 0 auto;
+  }
+}

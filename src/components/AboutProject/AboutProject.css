@@ -1,0 +1,140 @@
+.aboutProject {
+  margin-top: 110px;
+}
+
+.aboutProject__header {
+  font-style: normal;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  font-weight: normal;
+  margin: 0 0 0 calc(5%);
+}
+
+.separate__line_dark {
+  border-bottom: 0.5px solid #000;
+  margin: 23px 0 70px calc(5%);
+}
+
+.aboutProject__container {
+  display: flex;
+  justify-content: center;
+}
+
+.aboutProject__container-item {
+  width: 550px;
+  margin-left: calc(6%);
+}
+
+.aboutProject__container-header {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+  margin-top: 0;
+  margin-bottom: 26px;
+}
+
+.aboutProject__container-text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0;
+}
+
+.aboutProject__graphic {
+  margin: 110px 0 0 calc(5%);
+  width: calc(93%);
+  display: flex;
+  flex-direction: column;
+}
+
+.aboutProject__graph-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.aboutProject__graph {
+  width: calc(20%);
+  background-color: #2be080;
+  height: 28px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.aboutProject__graph_white {
+  width: calc(80%);
+  background-color: #f2f2f2;
+}
+.aboutProject__graph-subscription {
+  width: calc(20%);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #a0a0a0;
+  margin-right: calc(31%);
+}
+
+@media screen and (min-width: 500px) and (max-width: 768px) {
+  /* .auth-header_profile {
+    margin: 18px 32px;
+  } */
+
+  /* .auth-header__logo {
+    margin-left: calc(65%);
+  } */
+}
+
+@media screen and (min-width: 320px) and (max-width: 500px) {
+  .auth-header__signup {
+    margin-right: 14px;
+  }
+  .auth-header__signin {
+    width: 64px;
+  }
+
+  /* .auth-header__logo {
+    margin-left: calc(25%);
+  } */
+
+  .aboutProject__container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .aboutProject__container-item {
+    width: calc(89%);
+    margin-bottom: 56px;
+  }
+
+  .aboutProject__container-header {
+    margin-bottom: 16px;
+  }
+
+  .aboutProject__container-item:nth-last-of-type(1) {
+    margin-bottom: 0;
+  }
+
+  .aboutProject__graph-container {
+    width: calc(95%);
+  }
+
+  .aboutProject__graph {
+    width: calc(35%);
+  }
+
+  .aboutProject__graph_white {
+    width: calc(65%);
+  }
+
+  .aboutProject__graph-subscription {
+    width: calc(25%);
+    margin-left: calc(7%);
+    margin-right: calc(19%);
+    justify-content: space-around;
+  }
+}

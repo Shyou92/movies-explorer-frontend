@@ -1,0 +1,148 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-header_profile {
+  width: calc(90%);
+  margin: 18px calc(5%);
+  align-self: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.profile__greeting {
+  width: 250px;
+  margin: 74px 0 123px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #000;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.profile-form__section {
+  width: calc(100%);
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+}
+
+.profile-form__label {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+}
+
+.profile-form__input {
+  outline: none;
+  border: none;
+  text-align: end;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.profile-form__line {
+  border-top: none;
+  border-bottom: 0.5px solid #e8e8e8;
+  width: 410px;
+  margin: 16px 0;
+}
+
+.profile-form__input_error {
+  flex-basis: 90%;
+  position: absolute;
+  top: calc(100% + 5px);
+  max-width: 90%;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #ee3465;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.profile__edit-button {
+  margin: 420px 0 16px;
+  padding: 0;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: #000;
+}
+
+.profile__logout-button {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: #ee3465;
+}
+
+@media screen and (max-width: 740px) {
+  .profile-form {
+    width: calc(60%);
+  }
+
+  .profile-form__section {
+    width: calc(100%);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .profile-form__line {
+    width: calc(98%);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .profile__edit-button {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .profile__logout-button {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+.profile-form__section:nth-last-of-type(1) {
+  margin-bottom: 0;
+}
+
+.profile__edit-button:hover {
+  opacity: 0.6;
+  transition: 0.7s;
+}
+
+.profile__logout-button:hover {
+  opacity: 0.6;
+  transition: 0.7s;
+}
