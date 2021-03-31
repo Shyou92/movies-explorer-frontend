@@ -36,7 +36,7 @@
 
 .footer__navigation {
   display: flex;
-  width: calc(23%);
+  width: calc(25%);
   box-sizing: border-box;
 }
 
@@ -68,7 +68,7 @@
 
 @media screen and (max-width: 1048px) {
   .footer__navigation {
-    width: calc(28%);
+    width: calc(30%);
   }
 }
 
@@ -80,7 +80,7 @@
 
 @media screen and (max-width: 700px) {
   .footer__navigation {
-    width: calc(45%);
+    width: calc(50%);
   }
 }
 
@@ -123,4 +123,9 @@
     line-height: 15px;
     color: #a0a0a0;
   }
+}
+
+.footer__link-unit:hover {
+  opacity: 0.6;
+  transition: 0.8s;
 }

@@ -161,3 +161,8 @@
     align-items: start;
   }
 }
+
+.aboutMe__links-item:hover {
+  opacity: 0.5;
+  transition: 0.7s;
+}

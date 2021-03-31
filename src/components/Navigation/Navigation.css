@@ -17,7 +17,7 @@
     visibility: hidden;
     opacity: 0;
     right: -100%;
-    transition: all 0.5s ease;
+    transition: all 0.8s ease;
   }
 
   .slideMenu_is-opened {
@@ -27,7 +27,7 @@
     visibility: visible;
     opacity: 1;
     transition-property: visibility, margin, opacity;
-    transition-duration: 0.5s;
+    transition-duration: 0;
     transition-timing-function: linear;
     right: 0;
   }

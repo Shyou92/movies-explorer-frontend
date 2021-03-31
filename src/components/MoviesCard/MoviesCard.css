@@ -65,8 +65,21 @@
     flex-direction: column-reverse;
   }
 
+  .moviesCard__info {
+    margin-top: 14px;
+  }
+
   .moviesCard__info-header {
     font-size: 12px;
     line-height: 15px;
+  }
+
+  .moviesCard__info-delete {
+    float: right;
+    margin: -46px 16px 0 0;
+  }
+
+  .moviesCard__info-timer {
+    margin-bottom: 14px;
   }
 }

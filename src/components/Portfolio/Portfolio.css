@@ -63,3 +63,8 @@
     height: 28px;
   }
 }
+
+.portfolio__list-link:hover {
+  opacity: 0.3;
+  transition: 0.7s;
+}

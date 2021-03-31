@@ -4,7 +4,12 @@ function SearchForm() {
   return (
     <>
       <section className='search'>
-        <input type='text' className='search__input' placeholder='Фильм' />
+        <input
+          type='text'
+          className='search__input'
+          placeholder='Фильм'
+          required
+        />
         <button type='submit' className='search__button'>
           Найти
         </button>

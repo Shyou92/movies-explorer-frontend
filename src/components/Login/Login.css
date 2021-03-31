@@ -145,7 +145,7 @@
   }
 
   .auth-header__text {
-    width: 768px;
+    max-width: 768px;
     margin-top: 50px;
   }
 

@@ -29,6 +29,10 @@
 @media screen and (max-width: 500px) {
   .signup {
     width: 260px;
-    margin: 0 auto;
+    margin: 0 auto 30px;
+  }
+
+  .auth-form__register-text {
+    width: 260px;
   }
 }
