@@ -1,0 +1,131 @@
+.footer {
+  margin: 0 auto;
+  max-width: 5120px;
+  background-color: #f9f9f9;
+}
+
+.footer__header {
+  margin: 0;
+  padding-top: 80px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: #a0a0a0;
+}
+
+.separate__line_footer {
+  margin: 20px auto;
+}
+
+.footer__container {
+  display: flex;
+  justify-content: space-between;
+  width: calc(89%);
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+.footer__container-year {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.footer__navigation {
+  display: flex;
+  width: calc(25%);
+  box-sizing: border-box;
+}
+
+.footer__links-list {
+  width: 100%;
+  list-style-type: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer__links-item {
+  margin-right: 20px;
+}
+
+.footer__link-unit {
+  text-align: right;
+  color: #000;
+  text-decoration: none;
+}
+
+.footer__links-item:nth-last-of-type(1) {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 1048px) {
+  .footer__navigation {
+    width: calc(30%);
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .footer__navigation {
+    width: calc(40%);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .footer__navigation {
+    width: calc(50%);
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .footer__navigation {
+    width: calc(55%);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .footer__header {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .footer__container {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .footer__links-list {
+    flex-direction: column;
+  }
+
+  .footer__links-item {
+    margin: 0 0 12px 0;
+    text-align: center;
+  }
+
+  .footer__navigation {
+    justify-content: center;
+  }
+
+  .footer__links-item:nth-last-of-type(1) {
+    margin-bottom: 0;
+  }
+
+  .footer__container-year {
+    font-size: 12px;
+    line-height: 15px;
+    color: #a0a0a0;
+  }
+}
+
+.footer__link-unit:hover {
+  opacity: 0.6;
+  transition: 0.8s;
+}

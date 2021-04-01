@@ -1,0 +1,75 @@
+.slideMenu {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .slideMenu {
+    position: fixed;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    right: -100%;
+    transition: all 0.8s ease;
+  }
+
+  .slideMenu_is-opened {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: visible;
+    opacity: 1;
+    transition-property: visibility, margin, opacity;
+    transition-duration: 0;
+    transition-timing-function: linear;
+    right: 0;
+  }
+
+  .slideMenu__container {
+    width: 65%;
+    height: 100%;
+    background-color: #fff;
+    position: absolute;
+    right: 0;
+  }
+
+  .slideMenu__close {
+    width: 22px;
+    height: 22px;
+    background: url(../../images/Close-button.svg);
+    background-position: center;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    top: 18px;
+    left: calc(100% - 10%);
+  }
+
+  .slideMenu__close:hover {
+    transition: 1s;
+    opacity: 0.6;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .slideMenu__container {
+    width: 100%;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+}
