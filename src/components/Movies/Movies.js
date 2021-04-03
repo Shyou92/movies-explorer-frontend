@@ -8,7 +8,7 @@ function Movies() {
       <SearchForm />
       <MoviesCardList />
 
-      <div class='movie__button-wrapper'>
+      <div className='movie__button-wrapper'>
         <button className='movie__open-more' type='button'>
           Ещё
         </button>

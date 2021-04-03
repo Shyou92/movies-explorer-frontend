@@ -13,6 +13,7 @@ function SearchForm() {
         <button type='submit' className='search__button'>
           Найти
         </button>
+        <span className='search__input-error'></span>
       </section>
 
       <FilterCheckbox />
