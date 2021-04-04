@@ -1,4 +1,4 @@
-.search {
+.search__form {
   display: flex;
   width: calc(100%);
   justify-content: center;
@@ -39,7 +39,7 @@
   font-size: 10px;
   line-height: 12px;
   color: #ee3465;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s;
 }
 
