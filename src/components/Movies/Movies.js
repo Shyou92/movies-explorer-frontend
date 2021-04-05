@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
@@ -8,7 +8,8 @@ function Movies() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [movieSearch, setMovieSearch] = useState('');
   const [movieSearchError, setMovieSearchError] = useState('');
-  const [movieList, setMovieList] = useState('');
+  const [movieList, setMovieList] = useState([]);
+  const [movieCards, setMovieCards] = useState([]);
 
   const handleSubmit = (e) => {
     const movieArrayList = [];
@@ -18,14 +19,16 @@ function Movies() {
       setMovieSearchError('Нужно ввести ключевое слово');
     } else {
       setIsLoaded(true);
-      console.log(isLoaded);
       movieApi
         .getMovies()
-        .then((res) =>
+        .then((res) => {
+          if (!res) {
+            <div>Ничего не найдено</div>;
+          }
           res.forEach((item) => {
             movieArrayList.push(item);
-          })
-        )
+          });
+        })
         .then((res) =>
           localStorage.setItem('movieList', JSON.stringify(movieArrayList))
         )
@@ -41,6 +44,10 @@ function Movies() {
     setMovieSearch(e.target.value);
   };
 
+  useEffect(() => {
+    movieApi.getMovies().then((res) => setMovieCards(res));
+  }, []);
+
   return (
     <>
       <SearchForm
@@ -49,14 +56,14 @@ function Movies() {
         value={movieSearch}
         movieSearchError={movieSearchError}
       />
-      <MoviesCardList />
+
+      {isLoaded ? <Preloader /> : <MoviesCardList movieCards={movieCards} />}
 
       <div className='movie__button-wrapper'>
         <button className='movie__open-more' type='button'>
           Ещё
         </button>
       </div>
-      {isLoaded ? <Preloader /> : ''}
     </>
   );
 }

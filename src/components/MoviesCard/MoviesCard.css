@@ -7,6 +7,12 @@
   background-color: #f9f9f9;
 }
 
+.moviesCard__image {
+  width: 220px;
+  height: 122px;
+  object-fit: contain;
+}
+
 .moviesCard__info {
   margin: 29px 0 0 20px;
 }
