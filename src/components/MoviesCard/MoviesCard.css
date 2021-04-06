@@ -1,5 +1,6 @@
 .moviesCard {
   width: calc(90%);
+  position: relative;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -71,6 +72,11 @@
     flex-direction: column-reverse;
   }
 
+  .moviesCard__image {
+    width: calc(100%);
+    object-fit: cover;
+  }
+
   .moviesCard__info {
     margin-top: 14px;
   }
@@ -78,6 +84,7 @@
   .moviesCard__info-header {
     font-size: 12px;
     line-height: 15px;
+    max-width: 70%;
   }
 
   .moviesCard__info-delete {
@@ -87,5 +94,6 @@
 
   .moviesCard__info-timer {
     margin-bottom: 14px;
+    max-width: 70%;
   }
 }

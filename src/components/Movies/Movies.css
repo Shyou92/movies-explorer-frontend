@@ -25,6 +25,10 @@
   background-color: #fff;
 }
 
+.movie__open-more_hidden {
+  display: none;
+}
+
 @media screen and (max-width: 500px) {
   .movie__open-more {
     width: 240px;

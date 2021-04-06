@@ -1,15 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import * as movieApi from '../../utils/MovieApi';
 
-function Movies() {
+function Movies({ windowWidth }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [movieSearch, setMovieSearch] = useState('');
   const [movieSearchError, setMovieSearchError] = useState('');
   const [movieList, setMovieList] = useState([]);
-  const [movieCards, setMovieCards] = useState([]);
+  const [isNotFound, setIsNotFound] = useState(false);
+  const [errorLoaded, setErrorLoaded] = useState(false);
+
+  let moviesNumber = 12;
+  let newMoviesNumber = 3;
+
+  if (windowWidth > 768) {
+    moviesNumber = 12;
+    newMoviesNumber = 3;
+  } else if (windowWidth > 500) {
+    moviesNumber = 8;
+    newMoviesNumber = 2;
+  } else if (windowWidth <= 500) {
+    moviesNumber = 5;
+    newMoviesNumber = 2;
+  }
+
+  const [amountOfMovies, setAmountOfMovies] = useState(moviesNumber);
 
   const handleSubmit = (e) => {
     const movieArrayList = [];
@@ -23,30 +40,32 @@ function Movies() {
         .getMovies()
         .then((res) => {
           if (!res) {
-            <div>Ничего не найдено</div>;
+            setIsNotFound(true);
           }
           res.forEach((item) => {
             movieArrayList.push(item);
           });
+          setMovieList(movieArrayList);
         })
         .then((res) =>
-          localStorage.setItem('movieList', JSON.stringify(movieArrayList))
+          localStorage.setItem(
+            'movieStorageList',
+            JSON.stringify(movieArrayList)
+          )
         )
         .finally(() => setIsLoaded(false))
-        .catch((err) => console.log(`${err.status}: ${err.message}`));
+        .catch((err) => setErrorLoaded(true));
       setMovieSearchError('');
     }
-
-    setMovieList(localStorage.getItem('movieList'));
   };
 
   const handleMovieInput = (e) => {
     setMovieSearch(e.target.value);
   };
 
-  useEffect(() => {
-    movieApi.getMovies().then((res) => setMovieCards(res));
-  }, []);
+  function numberOfMovies() {
+    setAmountOfMovies(amountOfMovies + newMoviesNumber);
+  }
 
   return (
     <>
@@ -57,10 +76,33 @@ function Movies() {
         movieSearchError={movieSearchError}
       />
 
-      {isLoaded ? <Preloader /> : <MoviesCardList movieCards={movieCards} />}
+      {isNotFound ? <p>Ничего не найдено</p> : ''}
+
+      {errorLoaded ? (
+        <p>
+          Во время запроса произошла ошибка. Возможно, проблема с соединением
+          или сервер недоступен. Подождите немного и попробуйте ещё раз
+        </p>
+      ) : (
+        ''
+      )}
+
+      {isLoaded ? (
+        <Preloader />
+      ) : (
+        <MoviesCardList movieCards={movieList.slice(0, amountOfMovies)} />
+      )}
 
       <div className='movie__button-wrapper'>
-        <button className='movie__open-more' type='button'>
+        <button
+          className={`movie__open-more ${
+            movieList.length <= 12 && amountOfMovies >= movieList.length
+              ? 'movie__open-more_hidden'
+              : ''
+          }`}
+          type='button'
+          onClick={numberOfMovies}
+        >
           Ещё
         </button>
       </div>

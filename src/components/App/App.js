@@ -9,11 +9,13 @@ import Navigation from '../Navigation/Navigation';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Movies from '../Movies/Movies';
 import Main from '../Main/Main';
-
 import Footer from '../Footer/Footer';
+import useWindowWidth from '../../hooks/useWindowWidth';
 
 function App() {
   const [isOpened, setIsOpened] = useState(false);
+
+  const windowWidth = useWindowWidth();
 
   const onNavBar = () => {
     setIsOpened(true);
@@ -39,11 +41,11 @@ function App() {
             </Route>
 
             <Route path='/movies'>
-              <Movies />
+              <Movies windowWidth={windowWidth} />
             </Route>
 
             <Route path='/saved-movies'>
-              <SavedMovies />
+              <SavedMovies windowWidth={windowWidth} />
             </Route>
 
             <Route path='/signup'>
