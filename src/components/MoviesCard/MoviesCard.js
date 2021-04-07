@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Route } from 'react-router-dom';
+import * as mainMovieApi from '../../utils/MainApi';
 import noImage from '../../images/NoImage.png';
 
 function MoviesCard(item) {
@@ -8,33 +9,63 @@ function MoviesCard(item) {
     saved ? 'moviesCard__info-like_state-active' : ''
   }`;
 
-  const handleSetToSaved = () => {
+  const handleSetToSaved = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     setToSaved(true);
+    mainMovieApi.addToSavedMovies(e.currentTarget);
   };
+
+  const handleRemoveFromSaved = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setToSaved(false);
+  };
+
+  let time = item.card.duration;
+
+  const timeConvert = (time) => {
+    if (time <= 60) {
+      return time + 'м';
+    } else {
+      return Math.floor(time / 60) + ' ч ' + (time % 60) + ' м';
+    }
+  };
+
   return (
     <>
       <Route path='/movies'>
         <div className='moviesCard'>
-          <div className='moviesCard__info'>
-            <h3 className='moviesCard__info-header'>{item.card.nameRU}</h3>
-            <p className='moviesCard__info-timer'>{item.card.duration}</p>
-            <Route path='/movies'>
-              <button
-                className={setToSavedMovieCard}
-                onClick={handleSetToSaved}
-                type='button'
-              />
-            </Route>
-          </div>
-          <img
-            className='moviesCard__image'
-            src={
-              item.card.image && item.card.image.url
-                ? `https://api.nomoreparties.co${item.card.image.url}`
-                : noImage
+          <a
+            href={
+              item.card.trailerLink.length === 0
+                ? 'https://youtube.com'
+                : item.card.trailerLink
             }
-            alt='Обложка фильма'
-          />
+            target='blank'
+            className='movieCard__trailer'
+          >
+            <div className='moviesCard__info'>
+              <h3 className='moviesCard__info-header'>{item.card.nameRU}</h3>
+              <p className='moviesCard__info-timer'>{timeConvert(time)}</p>
+              <Route path='/movies'>
+                <button
+                  className={setToSavedMovieCard}
+                  onClick={saved ? handleRemoveFromSaved : handleSetToSaved}
+                  type='button'
+                />
+              </Route>
+            </div>
+            <img
+              className='moviesCard__image'
+              src={
+                item.card.image && item.card.image.url
+                  ? `https://api.nomoreparties.co${item.card.image.url}`
+                  : noImage
+              }
+              alt='Обложка фильма'
+            />
+          </a>
         </div>
       </Route>
       <Route path='/saved-movies'>

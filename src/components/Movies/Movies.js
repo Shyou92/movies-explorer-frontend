@@ -57,6 +57,7 @@ function Movies({ windowWidth }) {
         .catch((err) => setErrorLoaded(true));
       setMovieSearchError('');
     }
+    return JSON.parse(localStorage.getItem('movieStorageList'));
   };
 
   const handleMovieInput = (e) => {
@@ -66,6 +67,10 @@ function Movies({ windowWidth }) {
   function numberOfMovies() {
     setAmountOfMovies(amountOfMovies + newMoviesNumber);
   }
+
+  const localStorageMovies = JSON.parse(
+    localStorage.getItem('movieStorageList')
+  );
 
   return (
     <>
@@ -90,13 +95,20 @@ function Movies({ windowWidth }) {
       {isLoaded ? (
         <Preloader />
       ) : (
-        <MoviesCardList movieCards={movieList.slice(0, amountOfMovies)} />
+        <MoviesCardList
+          movieCards={
+            localStorageMovies.slice(0, amountOfMovies) ||
+            movieList.slice(0, amountOfMovies)
+          }
+        />
       )}
 
       <div className='movie__button-wrapper'>
         <button
           className={`movie__open-more ${
-            movieList.length <= 12 && amountOfMovies >= movieList.length
+            (movieList.length <= 12, localStorageMovies.length <= 12) ||
+            (amountOfMovies >= movieList.length,
+            amountOfMovies >= localStorageMovies.length)
               ? 'movie__open-more_hidden'
               : ''
           }`}

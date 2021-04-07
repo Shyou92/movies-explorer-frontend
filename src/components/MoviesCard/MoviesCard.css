@@ -1,17 +1,22 @@
 .moviesCard {
   width: calc(90%);
-  position: relative;
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
+
   margin-bottom: 40px;
   background-color: #f9f9f9;
+}
+.movieCard__trailer {
+  display: flex;
+  justify-content: space-between;
+  color: #000;
+  text-decoration: none;
+  height: 122px;
 }
 
 .moviesCard__image {
   width: 220px;
   height: 122px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .moviesCard__info {
@@ -73,8 +78,7 @@
   }
 
   .moviesCard__image {
-    width: calc(100%);
-    object-fit: cover;
+    max-width: calc(100%);
   }
 
   .moviesCard__info {
