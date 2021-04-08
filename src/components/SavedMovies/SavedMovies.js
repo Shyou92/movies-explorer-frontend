@@ -1,11 +1,12 @@
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function SavedMovies() {
+function SavedMovies({ savedMovieList }) {
+  console.log(savedMovieList);
   return (
     <>
       <SearchForm />
-      <MoviesCardList />
+      <MoviesCardList savedMovieList={savedMovieList} />
     </>
   );
 }

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Route } from 'react-router-dom';
-import * as mainMovieApi from '../../utils/MainApi';
 import noImage from '../../images/NoImage.png';
 
 function MoviesCard(item) {
@@ -13,7 +12,7 @@ function MoviesCard(item) {
     e.preventDefault();
     e.stopPropagation();
     setToSaved(true);
-    // mainMovieApi.addToSavedMovies(e.currentTarget);
+    item.onSaveMovie(item);
   };
 
   const handleRemoveFromSaved = (e) => {
@@ -38,9 +37,7 @@ function MoviesCard(item) {
         <div className='moviesCard'>
           <a
             href={
-              item.card.trailerLink
-                ? item.card.trailerLink
-                : 'https://youtube.com'
+              item.card.trailerLink ? item.trailerLink : 'https://youtube.com'
             }
             target='blank'
             className='movieCard__trailer'

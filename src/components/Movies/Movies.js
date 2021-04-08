@@ -2,18 +2,23 @@ import { useState } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
-import * as movieApi from '../../utils/MovieApi';
 
-function Movies({ windowWidth }) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [movieSearch, setMovieSearch] = useState('');
-  const [movieSearchError, setMovieSearchError] = useState('');
-  const [movieList, setMovieList] = useState([]);
-  const [isNotFound, setIsNotFound] = useState(false);
-  const [errorLoaded, setErrorLoaded] = useState(false);
-
+function Movies({
+  windowWidth,
+  movieSearch,
+  movieSearchError,
+  isLoaded,
+  movieList,
+  isNotFound,
+  errorLoaded,
+  getMoviesFromApi,
+  handleMovieInput,
+  localStorageMovies,
+  onSaveMovie,
+}) {
   let moviesNumber = 12;
   let newMoviesNumber = 3;
+  const [amountOfMovies, setAmountOfMovies] = useState(moviesNumber);
 
   if (windowWidth > 768) {
     moviesNumber = 12;
@@ -26,51 +31,13 @@ function Movies({ windowWidth }) {
     newMoviesNumber = 2;
   }
 
-  const [amountOfMovies, setAmountOfMovies] = useState(moviesNumber);
-
   const handleSubmit = (e) => {
-    const movieArrayList = [];
-    e.preventDefault();
-
-    if (movieSearch.length === 0) {
-      setMovieSearchError('Нужно ввести ключевое слово');
-    } else {
-      setIsLoaded(true);
-      movieApi
-        .getMovies()
-        .then((res) => {
-          if (!res) {
-            setIsNotFound(true);
-          }
-          res.forEach((item) => {
-            movieArrayList.push(item);
-          });
-          setMovieList(movieArrayList);
-        })
-        .then((res) =>
-          localStorage.setItem(
-            'movieStorageList',
-            JSON.stringify(movieArrayList)
-          )
-        )
-        .finally(() => setIsLoaded(false))
-        .catch((err) => setErrorLoaded(true));
-      setMovieSearchError('');
-    }
-    return JSON.parse(localStorage.getItem('movieStorageList'));
-  };
-
-  const handleMovieInput = (e) => {
-    setMovieSearch(e.target.value);
+    getMoviesFromApi(e);
   };
 
   function numberOfMovies() {
     setAmountOfMovies(amountOfMovies + newMoviesNumber);
   }
-
-  const localStorageMovies = JSON.parse(
-    localStorage.getItem('movieStorageList')
-  );
 
   return (
     <>
@@ -103,6 +70,7 @@ function Movies({ windowWidth }) {
               ? localStorageMovies.slice(0, amountOfMovies)
               : ''
           }
+          onSaveMovie={onSaveMovie}
         />
       )}
 
