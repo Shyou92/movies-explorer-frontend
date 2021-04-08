@@ -13,7 +13,7 @@ function MoviesCard(item) {
     e.preventDefault();
     e.stopPropagation();
     setToSaved(true);
-    mainMovieApi.addToSavedMovies(e.currentTarget);
+    // mainMovieApi.addToSavedMovies(e.currentTarget);
   };
 
   const handleRemoveFromSaved = (e) => {
@@ -38,9 +38,9 @@ function MoviesCard(item) {
         <div className='moviesCard'>
           <a
             href={
-              item.card.trailerLink.length === 0
-                ? 'https://youtube.com'
-                : item.card.trailerLink
+              item.card.trailerLink
+                ? item.card.trailerLink
+                : 'https://youtube.com'
             }
             target='blank'
             className='movieCard__trailer'

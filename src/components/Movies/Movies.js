@@ -97,27 +97,33 @@ function Movies({ windowWidth }) {
       ) : (
         <MoviesCardList
           movieCards={
-            localStorageMovies.slice(0, amountOfMovies) ||
-            movieList.slice(0, amountOfMovies)
+            movieList.length !== 0
+              ? movieList.slice(0, amountOfMovies)
+              : localStorageMovies
+              ? localStorageMovies.slice(0, amountOfMovies)
+              : ''
           }
         />
       )}
 
-      <div className='movie__button-wrapper'>
-        <button
-          className={`movie__open-more ${
-            (movieList.length <= 12, localStorageMovies.length <= 12) ||
-            (amountOfMovies >= movieList.length,
-            amountOfMovies >= localStorageMovies.length)
-              ? 'movie__open-more_hidden'
-              : ''
-          }`}
-          type='button'
-          onClick={numberOfMovies}
-        >
-          Ещё
-        </button>
-      </div>
+      {localStorageMovies ? (
+        <div className='movie__button-wrapper'>
+          <button
+            className={`movie__open-more ${
+              localStorageMovies.length <= 12 ||
+              amountOfMovies >= localStorageMovies.length
+                ? 'movie__open-more_hidden'
+                : ''
+            }`}
+            type='button'
+            onClick={numberOfMovies}
+          >
+            Ещё
+          </button>
+        </div>
+      ) : (
+        ''
+      )}
     </>
   );
 }
