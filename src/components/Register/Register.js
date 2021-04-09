@@ -1,6 +1,22 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Signup() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleUserNameInput = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleUserEmailInput = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleUserPasswordInput = (e) => {
+    setPassword(e.target.value);
+  };
   return (
     <div className='signup'>
       <form className='auth-form'>
@@ -8,7 +24,15 @@ function Signup() {
           <label htmlFor='auth-form-name' className='auth-form__label'>
             Имя
           </label>
-          <input type='text' id='auth-form-name' className='auth-form__input' />
+          <input
+            onChange={handleUserNameInput}
+            name='firstName'
+            type='text'
+            id='auth-form-name'
+            className='auth-form__input'
+            value={name}
+          />
+
           <span className='auth-form__input_error'></span>
         </section>
         <section className='auth-form__section'>
@@ -16,10 +40,14 @@ function Signup() {
             E-mail
           </label>
           <input
+            onChange={handleUserEmailInput}
+            name='email'
             type='email'
             id='auth-form-email'
             className='auth-form__input'
+            value={email}
           />
+
           <span className='auth-form__input_error'></span>
         </section>
         <section className='auth-form__section'>
@@ -27,10 +55,14 @@ function Signup() {
             Пароль
           </label>
           <input
+            onChange={handleUserPasswordInput}
+            name='password'
             type='password'
             id='auth-form-password'
             className='auth-form__input'
+            value={password}
           />
+
           <span className='auth-form__input_error'></span>
         </section>
         <Link to='signup'>

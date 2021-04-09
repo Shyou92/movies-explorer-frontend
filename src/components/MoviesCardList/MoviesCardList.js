@@ -1,8 +1,6 @@
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({ movieCards, onSaveMovie, savedMovieList }) {
-  console.log(savedMovieList);
-  console.log(movieCards);
+function MoviesCardList({ movieCards, onSaveMovie }) {
   return (
     <section className='moviesCardList'>
       {movieCards.length !== 0 ? (

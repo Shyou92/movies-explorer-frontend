@@ -35,4 +35,8 @@
   .auth-form__register-text {
     width: 260px;
   }
+
+  .auth-form__submit_login {
+    margin-top: 270px;
+  }
 }
