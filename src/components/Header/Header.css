@@ -4,6 +4,10 @@
   justify-content: space-around;
 }
 
+.header_is-hidden {
+  display: none;
+}
+
 .auth-header__movie-container {
   width: 212px;
   display: flex;

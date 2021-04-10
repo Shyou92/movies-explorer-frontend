@@ -1,36 +1,45 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
-function Signup() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+function Signup({ onRegister }) {
+  const [data, setData] = useState({
+    firstName: '',
+    email: '',
+    password: '',
+  });
+  const history = useHistory();
 
-  const handleUserNameInput = (e) => {
-    setName(e.target.value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
   };
 
-  const handleUserEmailInput = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleUserPasswordInput = (e) => {
-    setPassword(e.target.value);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onRegister(data)
+      .then((res) => {
+        return res;
+      })
+      .then(() => history.push('/movies'))
+      .catch((err) => console.log(`Ошибка ${err.status}: ${err.message}`));
   };
   return (
-    <div className='signup'>
+    <div className='signup' onSubmit={handleSubmit}>
       <form className='auth-form'>
         <section className='auth-form__section'>
           <label htmlFor='auth-form-name' className='auth-form__label'>
             Имя
           </label>
           <input
-            onChange={handleUserNameInput}
+            onChange={handleChange}
             name='firstName'
             type='text'
             id='auth-form-name'
             className='auth-form__input'
-            value={name}
+            defaultValue={data.firstName}
           />
 
           <span className='auth-form__input_error'></span>
@@ -40,12 +49,12 @@ function Signup() {
             E-mail
           </label>
           <input
-            onChange={handleUserEmailInput}
+            onChange={handleChange}
             name='email'
             type='email'
             id='auth-form-email'
             className='auth-form__input'
-            value={email}
+            defaultValue={data.email}
           />
 
           <span className='auth-form__input_error'></span>
@@ -55,21 +64,22 @@ function Signup() {
             Пароль
           </label>
           <input
-            onChange={handleUserPasswordInput}
+            onChange={handleChange}
             name='password'
             type='password'
             id='auth-form-password'
             className='auth-form__input'
-            value={password}
+            defaultValue={data.password}
           />
 
           <span className='auth-form__input_error'></span>
         </section>
-        <Link to='signup'>
-          <button className='auth-form__submit auth-form__submit_login'>
-            Зарегистрироваться
-          </button>
-        </Link>
+        <button
+          className='auth-form__submit auth-form__submit_login'
+          type='submit'
+        >
+          Зарегистрироваться
+        </button>
         <p className='auth-form__register-text'>
           Уже зарегистрированы?
           <Link className='auth-form__register-link' to='signin'>

@@ -2,7 +2,7 @@ import Logo from '../../images/Logo.svg';
 import { Route, Link } from 'react-router-dom';
 import React from 'react';
 
-function Header({ onNavBar }) {
+function Header({ onNavBar, loggedIn }) {
   return (
     <>
       <Route exact path='/'>
@@ -10,7 +10,11 @@ function Header({ onNavBar }) {
           <Link to='/'>
             <img src={Logo} alt='Логотип' className='auth-header__logo' />
           </Link>
-          <div className='auth-header__container'>
+          <div
+            className={`${
+              loggedIn ? 'header_is-hidden' : 'auth-header__container'
+            }`}
+          >
             <Link to='/signup'>
               <button className='auth-header__signup'>Регистрация</button>
             </Link>
