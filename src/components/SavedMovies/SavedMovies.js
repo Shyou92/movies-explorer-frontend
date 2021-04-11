@@ -1,12 +1,25 @@
 import SearchForm from '../SearchForm/SearchForm';
 import SavedMoviesCardList from '../SavedMoviesCardList/SavedMoviesCardList';
 
-function SavedMovies({ savedMovieList }) {
-  console.log(savedMovieList);
+function SavedMovies({
+  savedMovieList,
+  onRemoveSaveMovie,
+  savedMovies,
+  movies,
+  filteredMovies,
+  updateFilteredSavedMovies,
+}) {
   return (
     <>
       <SearchForm />
-      <SavedMoviesCardList savedMovieList={savedMovieList} />
+      <SavedMoviesCardList
+        savedMovieList={savedMovieList}
+        onRemoveSaveMovie={onRemoveSaveMovie}
+        savedMovies={savedMovies}
+        movies={movies}
+        filteredMovies={filteredMovies}
+        updateFilteredSavedMovies={updateFilteredSavedMovies}
+      />
     </>
   );
 }

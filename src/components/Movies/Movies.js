@@ -15,6 +15,9 @@ function Movies({
   handleMovieInput,
   localStorageMovies,
   onSaveMovie,
+  savedMovie,
+  savedMovieList,
+  onRemoveSaveMovie,
 }) {
   let moviesNumber = 12;
   let newMoviesNumber = 3;
@@ -63,8 +66,11 @@ function Movies({
               ? filteredMovieList.slice(0, amountOfMovies)
               : ''
           }
+          savedMovieList={savedMovieList}
+          savedMovie={savedMovie}
           onSaveMovie={onSaveMovie}
           errorLoaded={errorLoaded}
+          onRemoveSaveMovie={onRemoveSaveMovie}
         />
       )}
 

@@ -30,6 +30,7 @@ function App() {
   const [userData, setUserData] = useState('');
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [permissionsChecked, setPermissionsChecked] = useState(false);
+  const [filteredSavedMovieList, setFilteredSavedMovieList] = useState([]);
   const history = useHistory();
 
   const windowWidth = useWindowWidth();
@@ -39,6 +40,7 @@ function App() {
     if (jwt) {
       tokenCheck(jwt);
       setUserData(userData);
+      setFilteredSavedMovieList([]);
     } else {
       setPermissionsChecked(true);
     }
@@ -129,18 +131,40 @@ function App() {
 
   let localStorageMovies = JSON.parse(localStorage.getItem('movieStorageList'));
 
+  const updateFilteredSavedMovies = (value) => {
+    setFilteredSavedMovieList(value);
+  };
+
   const saveMovie = (movie) => {
-    mainMovieApi
+    return mainMovieApi
       .addToSavedMovies(movie)
-      .then((res) => {
-        setSavedMovieList([savedMovieList, ...savedMovieList]);
+      .then((savedMovie) => {
+        setSavedMovieList([savedMovie, ...savedMovieList]);
+        setFilteredSavedMovieList(savedMovie, ...filteredSavedMovieList);
+      })
+      .catch((err) => console.log(`${err.status}: ${err.message}`));
+  };
+
+  const removeSaveMovie = (movieId) => {
+    return mainMovieApi
+      .removeSaveMovie(movieId)
+      .then((deletedMovie) => {
+        const updateMovieList = savedMovieList.filter(
+          (i) => i._id !== deletedMovie._id
+        );
+        setSavedMovieList(updateMovieList);
+        setFilteredSavedMovieList(updateMovieList);
       })
       .catch((err) => console.log(`${err.status}: ${err.message}`));
   };
 
   useEffect(() => {
-    Promise.all([mainMovieApi.getUserInfo(), movieApi.getMovies()])
-      .then(([userData, movieList]) => {
+    Promise.all([
+      mainMovieApi.getUserInfo(),
+      mainMovieApi.getSavedMovies(),
+      movieApi.getMovies(),
+    ])
+      .then(([userData, savedMovieList, movieList]) => {
         let movieArrayList = [];
         const setMovieArrayList = () => {
           if (!localStorage.getItem('movieStorageList')) {
@@ -154,6 +178,7 @@ function App() {
         };
         const [userObj] = userData;
         handleCurrentUser(userObj);
+        setSavedMovieList(savedMovieList);
         setMovieList(setMovieArrayList());
       })
       .catch((err) => console.log(`Ошибка ${err.status} - ${err.statusText}`));
@@ -207,7 +232,10 @@ function App() {
                 errorLoaded={errorLoaded}
                 handleMovieInput={handleMovieInput}
                 localStorageMovies={localStorageMovies}
+                savedMovies={false}
+                savedMovieList={savedMovieList}
                 onSaveMovie={saveMovie}
+                onRemoveSaveMovie={removeSaveMovie}
               />
 
               <ProtectedRoute
@@ -215,7 +243,12 @@ function App() {
                 component={SavedMovies}
                 loggedIn={loggedIn}
                 windowWidth={windowWidth}
+                // movies={savedMovieList}
+                filteredMovies={filteredSavedMovieList}
+                updateFilteredSavedMovies={updateFilteredSavedMovies}
+                savedMovies={true}
                 savedMovieList={savedMovieList}
+                onRemoveSaveMovie={removeSaveMovie}
               />
 
               <Route path='*'>

@@ -7,18 +7,42 @@ function MoviesCard(item) {
   const setToSavedMovieCard = `moviesCard__info-like ${
     saved ? 'moviesCard__info-like_state-active' : ''
   }`;
+  const movieCard = item.card;
+  const movieURL = 'https://api.nomoreparties.co';
 
   const handleSetToSaved = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setToSaved(true);
-    item.onSaveMovie(item);
+    const movie = {
+      country: movieCard.country,
+      director: movieCard.director,
+      duration: movieCard.duration,
+      year: movieCard.year,
+      description: movieCard.description,
+      image: `${movieURL}${movieCard.image.url}`,
+      trailer: movieCard.trailerLink,
+      thumbnail: `${movieURL}${movieCard.image.formats.thumbnail.url}`,
+      movieId: movieCard.id,
+      nameRU: movieCard.nameRU,
+      nameEN: movieCard.nameEN,
+    };
+    item.onSaveMovie(movie);
   };
 
   const handleRemoveFromSaved = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setToSaved(false);
+    if (!item.savedMovies) {
+      const selectedCard = item.savedMovieList.find(
+        (item) => item.movieId === movieCard.id
+      );
+      item.onRemoveSaveMovie(selectedCard);
+      setToSaved(false);
+    } else {
+      item.onRemoveSaveMovie(movieCard._id);
+      setToSaved(false);
+    }
   };
 
   let time = item.card.duration;
@@ -32,58 +56,48 @@ function MoviesCard(item) {
   };
 
   return (
-    <>
-      <Route path='/movies'>
-        <div className='moviesCard'>
-          <a
-            href={
-              item.card.trailerLink
-                ? item.card.trailerLink
-                : 'https://youtube.com'
+    <div className='moviesCard'>
+      <a
+        href={
+          item.savedMovies
+            ? movieCard.trailer
+            : item.card.trailerLink
+            ? item.card.trailerLink
+            : 'https://youtube.com'
+        }
+        target='blank'
+        className='movieCard__trailer'
+      >
+        <div className='moviesCard__info'>
+          <h3 className='moviesCard__info-header'>
+            {item.savedMovies ? movieCard.nameRU : item.card.nameRU}
+          </h3>
+          <p className='moviesCard__info-timer'>{timeConvert(time)}</p>
+          <button
+            className={
+              item.savedMovies
+                ? 'moviesCard__info-delete'
+                : `${setToSavedMovieCard}`
             }
-            target='blank'
-            className='movieCard__trailer'
-          >
-            <div className='moviesCard__info'>
-              <h3 className='moviesCard__info-header'>{item.card.nameRU}</h3>
-              <p className='moviesCard__info-timer'>{timeConvert(time)}</p>
-              <Route path='/movies'>
-                <button
-                  className={setToSavedMovieCard}
-                  onClick={saved ? handleRemoveFromSaved : handleSetToSaved}
-                  type='button'
-                />
-              </Route>
-            </div>
-            <img
-              className='moviesCard__image'
-              src={
-                item.card.image && item.card.image.url
-                  ? `https://api.nomoreparties.co${item.card.image.url}`
-                  : noImage
-              }
-              alt='Обложка фильма'
-            />
-          </a>
-        </div>
-      </Route>
-      <Route path='/saved-movies'>
-        <div className='moviesCard'>
-          <div className='moviesCard__info'>
-            <h3 className='moviesCard__info-header'>33 слова о дизайне</h3>
-            <p className='moviesCard__info-timer'>1ч 42м</p>
-            <Route path='/saved-movies'>
-              <button className='moviesCard__info-delete' type='button' />
-            </Route>
-          </div>
-          <img
-            className='moviesCard__image'
-            src={noImage}
-            alt='Обложка фильма'
+            onClick={
+              item.savedMovies ? handleRemoveFromSaved : handleSetToSaved
+            }
+            type='button'
           />
         </div>
-      </Route>
-    </>
+        <img
+          className='moviesCard__image'
+          src={
+            item.savedMovies
+              ? movieCard.image
+              : item.card.image && item.card.image.url
+              ? `https://api.nomoreparties.co${item.card.image.url}`
+              : noImage
+          }
+          alt='Обложка фильма'
+        />
+      </a>
+    </div>
   );
 }
 

@@ -51,14 +51,38 @@ export const login = (email, password) => {
     .catch((err) => console.log(`Ошибка ${err.status} : ${err.message}`));
 };
 
+export const getSavedMovies = () => {
+  return fetch(`${BASE_MAIN_URL}/movies`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(responce)
+    .catch((err) => console.log(`Ошибка ${err.status} : ${err.message}`));
+};
+
 export const addToSavedMovies = (movie) => {
-  return fetch(`${BASE_MAIN_URL}/`, {
+  return fetch(`${BASE_MAIN_URL}/movies`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(movie),
+  })
+    .then(responce)
+    .catch((err) => console.log(`Ошибка ${err.status} : ${err.message}`));
+};
+
+export const removeSaveMovie = (movieId) => {
+  return fetch(`${BASE_MAIN_URL}/movies/${movieId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
   })
     .then(responce)
     .catch((err) => console.log(`Ошибка ${err.status} : ${err.message}`));
