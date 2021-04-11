@@ -1,7 +1,7 @@
-function FilterCheckbox() {
+function FilterCheckbox({ onChange }) {
   return (
     <>
-      <section className='search-short-movies'>
+      <section className='search-short-movies' onChange={onChange}>
         <label className='search-short-movies__switch'>
           <input className='search-short-movies__input' type='checkbox' />
           <span className='slider round'></span>

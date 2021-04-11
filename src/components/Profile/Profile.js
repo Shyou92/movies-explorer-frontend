@@ -1,4 +1,4 @@
-function Profile() {
+function Profile({ onHandleLogout, userData }) {
   return (
     <div className='profile'>
       <h1 className='profile__greeting'>Привет, Александр!</h1>
@@ -34,7 +34,9 @@ function Profile() {
       </form>
 
       <button className='profile__edit-button'>Редактировать</button>
-      <button className='profile__logout-button'>Выйти из аккаунта</button>
+      <button className='profile__logout-button' onClick={onHandleLogout}>
+        Выйти из аккаунта
+      </button>
     </div>
   );
 }

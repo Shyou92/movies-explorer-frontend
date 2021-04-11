@@ -11,6 +11,17 @@ function responce(res) {
   }
 }
 
+export const getUserInfo = () => {
+  return fetch(`${BASE_MAIN_URL}/users/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(responce)
+    .catch((err) => console.log(`Ошибка ${err.status} : ${err.message}`));
+};
+
 export const register = (name, email, password) => {
   return fetch(`${BASE_MAIN_URL}/signup`, {
     method: 'POST',
@@ -20,7 +31,9 @@ export const register = (name, email, password) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name, email, password }),
-  }).then(responce);
+  })
+    .then(responce)
+    .catch((err) => console.log(`Ошибка ${err.status} : ${err.message}`));
 };
 
 export const login = (email, password) => {
@@ -33,7 +46,9 @@ export const login = (email, password) => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ email, password }),
-  }).then(responce);
+  })
+    .then(responce)
+    .catch((err) => console.log(`Ошибка ${err.status} : ${err.message}`));
 };
 
 export const addToSavedMovies = (movie) => {
@@ -41,17 +56,12 @@ export const addToSavedMovies = (movie) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(movie),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(
-        new Error(`Ошибка ${res.status} - ${res.statusText}`)
-      );
-    }
-  });
+  })
+    .then(responce)
+    .catch((err) => console.log(`Ошибка ${err.status} : ${err.message}`));
 };
 
 export const checkTokenValidity = (token) => {

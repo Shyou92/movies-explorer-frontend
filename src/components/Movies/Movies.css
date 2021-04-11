@@ -29,6 +29,10 @@
   display: none;
 }
 
+.movies__errorText {
+  text-align: center;
+}
+
 @media screen and (max-width: 500px) {
   .movie__open-more {
     width: 240px;

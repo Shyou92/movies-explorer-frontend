@@ -27,9 +27,19 @@ function App() {
   const [errorLoaded, setErrorLoaded] = useState(false);
   const [movieSearch, setMovieSearch] = useState('');
   const [savedMovieList, setSavedMovieList] = useState([]);
+  const [userData, setUserData] = useState('');
+  const [filteredMovies, setFilteredMovies] = useState([]);
   const history = useHistory();
 
   const windowWidth = useWindowWidth();
+
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      tokenCheck(jwt);
+      setUserData(userData);
+    }
+  }, []);
 
   useEffect(() => {
     if (loggedIn) {
@@ -53,25 +63,32 @@ function App() {
     setMovieSearch(e.target.value);
   };
 
+  const addFilteredMovie = (value) => {
+    setFilteredMovies(value);
+  };
+
   const register = (data) => {
     const { firstName, email, password } = data;
     return mainMovieApi
       .register(firstName, email, password)
       .then((res) => {
         if (res) {
-          return login(res.data.email, password);
+          const userData = { email: res.data.email, password };
+          return login(userData);
         }
         return res;
       })
       .catch((err) => console.log(`Ошибка ${err.status}: ${err.message}`));
   };
 
-  const login = (email, password) => {
-    mainMovieApi.login(email, password).then((data) => {
+  const login = (data) => {
+    const { email, password } = data;
+    return mainMovieApi.login(email, password).then((data) => {
       if (data.message) {
         localStorage.setItem('jwt', data.message);
         tokenCheck();
         setLoggedIn(true);
+        setUserData(userData);
         history.push('/movies');
       }
       return data;
@@ -92,41 +109,46 @@ function App() {
     }
   };
 
-  const getMoviesFromApi = (e) => {
-    const movieArrayList = [];
-    e.preventDefault();
-
-    if (movieSearch.length === 0) {
-      setMovieSearchError('Нужно ввести ключевое слово');
-    } else {
-      setIsLoaded(true);
-      movieApi
-        .getMovies()
-        .then((res) => {
-          if (!res) {
-            setIsNotFound(true);
-          }
-          res.forEach((item) => {
-            movieArrayList.push(item);
-          });
-          setMovieList(movieArrayList);
-        })
-        .then((res) =>
-          localStorage.setItem(
-            'movieStorageList',
-            JSON.stringify(movieArrayList)
-          )
-        )
-        .finally(() => setIsLoaded(false))
-        .catch((err) => setErrorLoaded(true));
-      setMovieSearchError('');
-    }
-    return JSON.parse(localStorage.getItem('movieStorageList'));
+  const handleLogout = () => {
+    localStorage.removeItem('jwt');
+    history.push('/signin');
+    setLoggedIn(false);
+    setUserData('');
   };
 
-  const localStorageMovies = JSON.parse(
-    localStorage.getItem('movieStorageList')
-  );
+  // const getMoviesFromApi = (e) => {
+  //   const movieArrayList = [];
+  //   e.preventDefault();
+
+  //   if (movieSearch.length === 0) {
+  //     setMovieSearchError('Нужно ввести ключевое слово');
+  //   } else {
+  //     setIsLoaded(true);
+  //     movieApi
+  //       .getMovies()
+  //       .then((res) => {
+  //         if (!res) {
+  //           setIsNotFound(true);
+  //         }
+  //         res.forEach((item) => {
+  //           movieArrayList.push(item);
+  //         });
+  //         setMovieList(movieArrayList);
+  //       })
+  //       .then((res) =>
+  //         localStorage.setItem(
+  //           'movieStorageList',
+  //           JSON.stringify(movieArrayList)
+  //         )
+  //       )
+  //       .finally(() => setIsLoaded(false))
+  //       .catch((err) => setErrorLoaded(true));
+  //     setMovieSearchError('');
+  //   }
+  //   return JSON.parse(localStorage.getItem('movieStorageList'));
+  // };
+
+  let localStorageMovies = JSON.parse(localStorage.getItem('movieStorageList'));
 
   const saveMovie = (movie) => {
     mainMovieApi
@@ -136,6 +158,26 @@ function App() {
       })
       .catch((err) => console.log(`${err.status}: ${err.message}`));
   };
+
+  useEffect(() => {
+    Promise.all([mainMovieApi.getUserInfo(), movieApi.getMovies()])
+      .then(([userData, movieList]) => {
+        let movieArrayList = [];
+        const setMovieArrayList = () => {
+          if (!localStorage.getItem('movieStorageList')) {
+            localStorage.setItem('movieStorageList', JSON.stringify(movieList));
+          } else {
+            localStorage.removeItem('movieStorageList');
+            localStorage.setItem('movieStorageList', JSON.stringify(movieList));
+          }
+          movieArrayList = JSON.parse(localStorage.getItem('movieStorageList'));
+          return movieArrayList;
+        };
+        handleCurrentUser(userData);
+        setMovieList(setMovieArrayList());
+      })
+      .catch((err) => console.log(`Ошибка ${err.status} - ${err.statusText}`));
+  }, [loggedIn]);
 
   return (
     <BrowserRouter>
@@ -154,13 +196,15 @@ function App() {
               </Route>
 
               <Route path='/signin'>
-                <Login />
+                <Login onLogin={login} />
               </Route>
 
               <ProtectedRoute
                 path='/profile'
                 component={Profile}
                 loggedIn={loggedIn}
+                onHandleLogout={handleLogout}
+                userData={userData}
               />
 
               <ProtectedRoute
@@ -171,10 +215,12 @@ function App() {
                 movieSearch={movieSearch}
                 movieSearchError={movieSearchError}
                 isLoaded={isLoaded}
+                filteredMovies={filteredMovies}
+                addFilteredMovie={addFilteredMovie}
                 movieList={movieList}
+                filteredMovieList={filteredMovies}
                 isNotFound={isNotFound}
                 errorLoaded={errorLoaded}
-                getMoviesFromApi={getMoviesFromApi}
                 handleMovieInput={handleMovieInput}
                 localStorageMovies={localStorageMovies}
                 onSaveMovie={saveMovie}

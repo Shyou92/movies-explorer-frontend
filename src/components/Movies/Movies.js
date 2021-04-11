@@ -8,6 +8,8 @@ function Movies({
   movieSearch,
   movieSearchError,
   isLoaded,
+  filteredMovieList,
+  addFilteredMovie,
   movieList,
   isNotFound,
   errorLoaded,
@@ -31,10 +33,6 @@ function Movies({
     newMoviesNumber = 2;
   }
 
-  const handleSubmit = (e) => {
-    getMoviesFromApi(e);
-  };
-
   function numberOfMovies() {
     setAmountOfMovies(amountOfMovies + newMoviesNumber);
   }
@@ -42,16 +40,15 @@ function Movies({
   return (
     <>
       <SearchForm
-        handleSubmit={handleSubmit}
         handleMovieInput={handleMovieInput}
         value={movieSearch}
+        movieList={movieList}
+        addFilteredMovie={addFilteredMovie}
         movieSearchError={movieSearchError}
       />
 
-      {isNotFound ? <p>Ничего не найдено</p> : ''}
-
       {errorLoaded ? (
-        <p>
+        <p className='movies__errorText'>
           Во время запроса произошла ошибка. Возможно, проблема с соединением
           или сервер недоступен. Подождите немного и попробуйте ещё раз
         </p>
@@ -64,13 +61,14 @@ function Movies({
       ) : (
         <MoviesCardList
           movieCards={
-            movieList.length !== 0
-              ? movieList.slice(0, amountOfMovies)
-              : localStorageMovies
-              ? localStorageMovies.slice(0, amountOfMovies)
-              : ''
+            filteredMovieList.length !== 0
+              ? filteredMovieList.slice(0, amountOfMovies)
+              : // : localStorageMovies
+                // ? localStorageMovies.slice(0, amountOfMovies)
+                ''
           }
           onSaveMovie={onSaveMovie}
+          errorLoaded={errorLoaded}
         />
       )}
 
@@ -78,7 +76,7 @@ function Movies({
         <div className='movie__button-wrapper'>
           <button
             className={`movie__open-more ${
-              localStorageMovies.length <= 12 ||
+              filteredMovieList.length <= 12 ||
               amountOfMovies >= localStorageMovies.length
                 ? 'movie__open-more_hidden'
                 : ''

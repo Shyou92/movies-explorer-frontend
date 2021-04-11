@@ -1,6 +1,6 @@
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({ movieCards, onSaveMovie }) {
+function MoviesCardList({ movieCards, onSaveMovie, errorLoaded }) {
   return (
     <section className='moviesCardList'>
       {movieCards.length !== 0 ? (
@@ -9,6 +9,8 @@ function MoviesCardList({ movieCards, onSaveMovie }) {
             <MoviesCard key={item.id} card={item} onSaveMovie={onSaveMovie} />
           );
         })
+      ) : errorLoaded ? (
+        ''
       ) : (
         <p className='moviesCardList__text'>
           Введите ключевое слово и нажмите "Найти"

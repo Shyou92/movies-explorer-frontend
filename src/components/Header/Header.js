@@ -22,6 +22,27 @@ function Header({ onNavBar, loggedIn }) {
               <button className='auth-header__signin'>Войти</button>
             </Link>
           </div>
+          <nav
+            className={`${
+              loggedIn ? 'auth-header__movie-container' : 'header_is-hidden'
+            }`}
+          >
+            <Link to='/movies' className='auth-header__movie'>
+              Фильмы
+            </Link>
+            <Link to='/saved-movies' className='auth-header__savedMovie'>
+              Сохранённые фильмы
+            </Link>
+          </nav>
+
+          <Link
+            to='/profile'
+            className={`${
+              loggedIn ? 'auth-header__profileLink' : 'header_is-hidden'
+            }`}
+          >
+            Аккаунт
+          </Link>
         </header>
       </Route>
 
