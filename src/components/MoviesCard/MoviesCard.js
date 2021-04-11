@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Route } from 'react-router-dom';
 import noImage from '../../images/NoImage.png';
 
 function MoviesCard(item) {

@@ -67,10 +67,11 @@ function App() {
   };
 
   const register = (data) => {
-    const { firstName, email, password } = data;
+    const { name, email, password } = data;
     return mainMovieApi
-      .register(firstName, email, password)
+      .register(name, email, password)
       .then((res) => {
+        console.log(res);
         if (res) {
           const userData = { email: res.data.email, password };
           return login(userData);
@@ -199,11 +200,11 @@ function App() {
               <Route exact path='/' component={Main} />
 
               <Route path='/signup'>
-                <Register onRegister={register} />
+                <Register onRegister={register} signedIn={false} />
               </Route>
 
               <Route path='/signin'>
-                <Login onLogin={login} />
+                <Login onLogin={login} signedIn={true} />
               </Route>
 
               <ProtectedRoute
@@ -243,7 +244,6 @@ function App() {
                 component={SavedMovies}
                 loggedIn={loggedIn}
                 windowWidth={windowWidth}
-                // movies={savedMovieList}
                 filteredMovies={filteredSavedMovieList}
                 updateFilteredSavedMovies={updateFilteredSavedMovies}
                 savedMovies={true}

@@ -6,6 +6,8 @@ function Profile({ onHandleLogout, onHandleUpdateUserInfo, currentUser }) {
   const [email, setEmail] = useState('');
   const [nameIsValid, setNameIsValid] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState(false);
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
   useEffect(() => {
@@ -44,28 +46,42 @@ function Profile({ onHandleLogout, onHandleUpdateUserInfo, currentUser }) {
       !emailRegExp.test(String(e.target.value).toLowerCase()) &&
       e.target.value.length >= 2
     ) {
+      setEmailError('Некорректный email');
       setEmailIsValid(false);
     } else if (e.target.value.length === 0) {
+      setEmailError("Поле 'Email' должно быть заполнено");
       setEmailIsValid(false);
     } else {
+      setEmailError('');
       setEmailIsValid(true);
     }
   };
 
   const onNameHandler = (e) => {
     setName(e.target.value);
-
     const nameRegExp = /^([a-zA-Zа-яА-я]{2,}\s[a-zA-Zа-яА-Я]{1,}'?-?[a-zA-Zа-яА-Я]{2,}\s?([a-zA-Zа-яА-Я]{1,})?)/;
-
-    if (
-      !nameRegExp.test(String(e.target.value).toLowerCase()) &&
-      e.target.value.length >= 2
-    ) {
+    if (e.target.value === '') {
+      setNameError("Поле 'Имя' должно быть заполнено");
       setNameIsValid(false);
-    } else if (e.target.value.length === 0) {
+    } else if (
+      !nameRegExp.test(String(e.target.value).toLowerCase()) &&
+      e.target.value.length < 2
+    ) {
+      setNameError("Поле 'Имя' должно содержать хотя бы 2 символа");
       setNameIsValid(false);
     } else {
+      setNameError('');
       setNameIsValid(true);
+    }
+  };
+
+  const editProfileSubmit = () => {
+    if (nameIsValid && emailIsValid) {
+      setButtonDisabled(false);
+      return buttonDisabled;
+    } else {
+      setButtonDisabled(true);
+      return buttonDisabled;
     }
   };
 
@@ -78,7 +94,11 @@ function Profile({ onHandleLogout, onHandleUpdateUserInfo, currentUser }) {
     <div className='profile'>
       <h1 className='profile__greeting'>Привет, {currentUser.name}!</h1>
 
-      <form className='profile-form' onSubmit={handleSubmit}>
+      <form
+        className='profile-form'
+        onSubmit={handleSubmit}
+        onChange={editProfileSubmit}
+      >
         <section className='profile-form__section'>
           <label htmlFor='profile-form-name' className='profile-form__label'>
             Имя
@@ -92,8 +112,12 @@ function Profile({ onHandleLogout, onHandleUpdateUserInfo, currentUser }) {
             placeholder='Ваше имя'
             onChange={onNameHandler}
           />
-          <span className='profile-form__input_error'>
-            Что-то пошло не так...
+          <span
+            className={`auth-form__input_error ${
+              nameIsValid ? '' : 'auth-form__input_error-active'
+            } `}
+          >
+            {nameError}
           </span>
         </section>
         <hr className='profile-form__line' />
@@ -110,14 +134,20 @@ function Profile({ onHandleLogout, onHandleUpdateUserInfo, currentUser }) {
             placeholder='Ваш email'
             onChange={onEmailHanlder}
           />
-          <span className='profile-form__input_error'></span>
+          <span
+            className={`auth-form__input_error ${
+              emailIsValid ? '' : 'auth-form__input_error-active'
+            } `}
+          >
+            {emailError}
+          </span>
         </section>
         <button
           className={`profile__edit-button ${
             buttonDisabled ? 'profile__edit_button_disabled' : ''
           } `}
           type='submit'
-          // disabled={buttonDisabled}
+          disabled={nameIsValid && emailIsValid ? false : true}
         >
           Редактировать
         </button>

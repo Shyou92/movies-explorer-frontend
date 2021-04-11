@@ -88,6 +88,11 @@
   cursor: pointer;
 }
 
+.auth-form__submit_disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .auth-form__register-text {
   text-align: center;
   margin: 16px auto 0;
