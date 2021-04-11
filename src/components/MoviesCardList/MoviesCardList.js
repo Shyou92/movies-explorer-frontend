@@ -13,7 +13,8 @@ function MoviesCardList({ movieCards, onSaveMovie, errorLoaded }) {
         ''
       ) : (
         <p className='moviesCardList__text'>
-          Введите ключевое слово и нажмите "Найти"
+          Нажмите "Найти" для вывода списка фильмов или введите ключевое слово
+          для поиска конкретного
         </p>
       )}
     </section>

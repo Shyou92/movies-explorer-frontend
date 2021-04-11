@@ -8,7 +8,6 @@ function SearchForm({
   addFilteredMovie,
   movieSearchError,
 }) {
-  const [movie, setMovie] = useState('');
   const [checkForShortness, setCheckForShortness] = useState(false);
 
   const checkBoxToggle = () => {
@@ -43,7 +42,7 @@ function SearchForm({
     if (filteredMoviesArray.length === 0) {
       return <p className='movies__errorText'>Ничего не найдено</p>;
     } else if (value === '') {
-      filteredMoviesArray = movieList;
+      <p className='movies__errorText'>{movieSearchError}</p>;
     }
   };
   return (

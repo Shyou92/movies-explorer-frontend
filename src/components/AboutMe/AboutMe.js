@@ -1,9 +1,12 @@
+import ScrollableAnchor from 'react-scrollable-anchor';
 import Avatar from '../../images/Avatar.jpg';
 
 function AboutMe() {
   return (
     <section className='aboutMe'>
-      <h2 className='aboutProject__header'>Студент</h2>
+      <ScrollableAnchor id={'aboutMe'}>
+        <h2 className='aboutProject__header'>Студент</h2>
+      </ScrollableAnchor>
       <hr className='separate__line separate__line_dark' />
       <div className='aboutMe__container-info'>
         <div className='aboutMe__student'>

@@ -1,7 +1,11 @@
+import ScrollableAnchor from 'react-scrollable-anchor';
+
 function AboutProject() {
   return (
     <section className='aboutProject'>
-      <h2 className='aboutProject__header'>О проекте</h2>
+      <ScrollableAnchor id={'aboutProject'}>
+        <h2 className='aboutProject__header'>О проекте</h2>
+      </ScrollableAnchor>
       <hr className='separate__line separate__line_dark' />
       <div className='aboutProject__container'>
         <div className='aboutProject__container-item'>

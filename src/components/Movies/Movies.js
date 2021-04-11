@@ -11,9 +11,7 @@ function Movies({
   filteredMovieList,
   addFilteredMovie,
   movieList,
-  isNotFound,
   errorLoaded,
-  getMoviesFromApi,
   handleMovieInput,
   localStorageMovies,
   onSaveMovie,
@@ -63,9 +61,7 @@ function Movies({
           movieCards={
             filteredMovieList.length !== 0
               ? filteredMovieList.slice(0, amountOfMovies)
-              : // : localStorageMovies
-                // ? localStorageMovies.slice(0, amountOfMovies)
-                ''
+              : ''
           }
           onSaveMovie={onSaveMovie}
           errorLoaded={errorLoaded}

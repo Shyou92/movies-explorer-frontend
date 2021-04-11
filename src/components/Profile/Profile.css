@@ -90,6 +90,11 @@
   line-height: 16px;
   text-align: center;
   color: #000;
+  align-self: center;
+}
+
+.profile__edit-button_disabled {
+  opacity: 0.6;
 }
 
 .profile__logout-button {

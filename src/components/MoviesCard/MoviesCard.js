@@ -37,7 +37,9 @@ function MoviesCard(item) {
         <div className='moviesCard'>
           <a
             href={
-              item.card.trailerLink ? item.trailerLink : 'https://youtube.com'
+              item.card.trailerLink
+                ? item.card.trailerLink
+                : 'https://youtube.com'
             }
             target='blank'
             className='movieCard__trailer'

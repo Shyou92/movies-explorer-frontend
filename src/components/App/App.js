@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { CurrentUserContext } from '../../contexts/CurrentUsetContext';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Header from '../Header/Header';
 import NotFound from '../NotFound/NotFound';
 import Login from '../Login/Login';
@@ -29,6 +29,7 @@ function App() {
   const [savedMovieList, setSavedMovieList] = useState([]);
   const [userData, setUserData] = useState('');
   const [filteredMovies, setFilteredMovies] = useState([]);
+  const [permissionsChecked, setPermissionsChecked] = useState(false);
   const history = useHistory();
 
   const windowWidth = useWindowWidth();
@@ -38,14 +39,10 @@ function App() {
     if (jwt) {
       tokenCheck(jwt);
       setUserData(userData);
+    } else {
+      setPermissionsChecked(true);
     }
   }, []);
-
-  useEffect(() => {
-    if (loggedIn) {
-      history.push('/');
-    }
-  }, [loggedIn]);
 
   const handleCurrentUser = (data) => {
     setCurrentUser(data);
@@ -103,9 +100,16 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
+          } else {
+            Promise.reject();
           }
         })
+        .finally(() => {
+          setPermissionsChecked(true);
+        })
         .catch((err) => console.log(`Ошибка ${err.status}: ${err.message}`));
+    } else {
+      setPermissionsChecked(true);
     }
   };
 
@@ -116,37 +120,12 @@ function App() {
     setUserData('');
   };
 
-  // const getMoviesFromApi = (e) => {
-  //   const movieArrayList = [];
-  //   e.preventDefault();
-
-  //   if (movieSearch.length === 0) {
-  //     setMovieSearchError('Нужно ввести ключевое слово');
-  //   } else {
-  //     setIsLoaded(true);
-  //     movieApi
-  //       .getMovies()
-  //       .then((res) => {
-  //         if (!res) {
-  //           setIsNotFound(true);
-  //         }
-  //         res.forEach((item) => {
-  //           movieArrayList.push(item);
-  //         });
-  //         setMovieList(movieArrayList);
-  //       })
-  //       .then((res) =>
-  //         localStorage.setItem(
-  //           'movieStorageList',
-  //           JSON.stringify(movieArrayList)
-  //         )
-  //       )
-  //       .finally(() => setIsLoaded(false))
-  //       .catch((err) => setErrorLoaded(true));
-  //     setMovieSearchError('');
-  //   }
-  //   return JSON.parse(localStorage.getItem('movieStorageList'));
-  // };
+  const handleUpdateUserInfo = (userInfo) => {
+    return mainMovieApi
+      .updateUserInfo(userInfo)
+      .then((res) => setCurrentUser(res))
+      .catch((err) => console.log(`${err.status}: ${err.message}`));
+  };
 
   let localStorageMovies = JSON.parse(localStorage.getItem('movieStorageList'));
 
@@ -173,11 +152,16 @@ function App() {
           movieArrayList = JSON.parse(localStorage.getItem('movieStorageList'));
           return movieArrayList;
         };
-        handleCurrentUser(userData);
+        const [userObj] = userData;
+        handleCurrentUser(userObj);
         setMovieList(setMovieArrayList());
       })
       .catch((err) => console.log(`Ошибка ${err.status} - ${err.statusText}`));
   }, [loggedIn]);
+
+  if (!permissionsChecked) {
+    return null;
+  }
 
   return (
     <BrowserRouter>
@@ -187,9 +171,7 @@ function App() {
             <Header onNavBar={onNavBar} loggedIn={loggedIn} />
             <Navigation isOpened={isOpened} onClosed={setNavbarClosed} />
             <Switch>
-              <Route exact path='/'>
-                <Main />
-              </Route>
+              <Route exact path='/' component={Main} />
 
               <Route path='/signup'>
                 <Register onRegister={register} />
@@ -205,6 +187,8 @@ function App() {
                 loggedIn={loggedIn}
                 onHandleLogout={handleLogout}
                 userData={userData}
+                onHandleUpdateUserInfo={handleUpdateUserInfo}
+                currentUser={currentUser}
               />
 
               <ProtectedRoute

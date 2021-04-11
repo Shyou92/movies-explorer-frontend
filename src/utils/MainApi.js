@@ -75,3 +75,16 @@ export const checkTokenValidity = (token) => {
     .then(responce)
     .catch((err) => console.log(`Ошибка ${err.status} - ${err.statusText}`));
 };
+
+export const updateUserInfo = (data) => {
+  return fetch(`${BASE_MAIN_URL}/users/me`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  })
+    .then(responce)
+    .catch((err) => console.log(`Ошибка ${err.status} - ${err.statusText}`));
+};
