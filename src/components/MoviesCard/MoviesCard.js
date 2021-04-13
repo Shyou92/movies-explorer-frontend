@@ -1,18 +1,21 @@
-import { useState } from 'react';
 import noImage from '../../images/NoImage.png';
 
 function MoviesCard(item) {
-  const [saved, setToSaved] = useState(false);
-  const setToSavedMovieCard = `moviesCard__info-like ${
-    saved ? 'moviesCard__info-like_state-active' : ''
-  }`;
   const movieCard = item.card;
+  const savedMovieName = item.savedMovieList.some(
+    (item) => item.nameRU === movieCard.nameRU
+  );
+  const setToSavedMovieCard = `moviesCard__info-like ${
+    savedMovieName ? 'moviesCard__info-like_state-active' : ''
+  }`;
   const movieURL = 'https://api.nomoreparties.co';
 
   const handleSetToSaved = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setToSaved(true);
+    if (savedMovieName) {
+      return;
+    }
     const movie = {
       country: movieCard.country,
       director: movieCard.director,
@@ -34,13 +37,11 @@ function MoviesCard(item) {
     e.stopPropagation();
     if (!item.savedMovies) {
       const selectedCard = item.savedMovieList.find(
-        (item) => item.movieId === movieCard.id
+        (item) => item.movieId || item.card.id === movieCard.id
       );
       item.onRemoveSaveMovie(selectedCard);
-      setToSaved(false);
     } else {
-      item.onRemoveSaveMovie(movieCard._id);
-      setToSaved(false);
+      item.onRemoveSaveMovie(movieCard);
     }
   };
 
@@ -78,9 +79,7 @@ function MoviesCard(item) {
                 ? 'moviesCard__info-delete'
                 : `${setToSavedMovieCard}`
             }
-            onClick={
-              item.savedMovies ? handleRemoveFromSaved : handleSetToSaved
-            }
+            onClick={savedMovieName ? handleRemoveFromSaved : handleSetToSaved}
             type='button'
           />
         </div>

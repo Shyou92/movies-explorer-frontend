@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Profile({ onHandleLogout, onHandleUpdateUserInfo, currentUser }) {
+function Profile({ onHandleLogout, onHandleUpdateUserInfo }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [nameIsValid, setNameIsValid] = useState(false);
@@ -9,6 +10,7 @@ function Profile({ onHandleLogout, onHandleUpdateUserInfo, currentUser }) {
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const currentUser = React.useContext(CurrentUserContext);
 
   useEffect(() => {
     if (!currentUser.name || !currentUser.email) {
@@ -147,7 +149,7 @@ function Profile({ onHandleLogout, onHandleUpdateUserInfo, currentUser }) {
             buttonDisabled ? 'profile__edit_button_disabled' : ''
           } `}
           type='submit'
-          disabled={nameIsValid && emailIsValid ? false : true}
+          disabled={nameIsValid || emailIsValid ? false : true}
         >
           Редактировать
         </button>

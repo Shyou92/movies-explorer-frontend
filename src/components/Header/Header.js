@@ -43,6 +43,10 @@ function Header({ onNavBar, loggedIn }) {
           >
             Аккаунт
           </Link>
+
+          <div className='auth-header__burger' onClick={onNavBar}>
+            <span></span>
+          </div>
         </header>
       </Route>
 

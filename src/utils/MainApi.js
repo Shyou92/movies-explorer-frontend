@@ -76,8 +76,8 @@ export const addToSavedMovies = (movie) => {
     .catch((err) => console.log(`Ошибка ${err.status} : ${err.message}`));
 };
 
-export const removeSaveMovie = (movieId) => {
-  return fetch(`${BASE_MAIN_URL}/movies/${movieId}`, {
+export const removeSaveMovie = (movie) => {
+  return fetch(`${BASE_MAIN_URL}/movies/${movie._id}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${token}`,

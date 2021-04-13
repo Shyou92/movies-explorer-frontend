@@ -3,7 +3,9 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 function SavedMoviesCardList({
   savedMovieList,
   savedMovies,
+  onSaveMovie,
   onRemoveSaveMovie,
+  filteredSavedMovieList,
 }) {
   return (
     <section className='moviesCardList'>
@@ -14,8 +16,10 @@ function SavedMoviesCardList({
               key={item._id}
               card={item}
               savedMovies={savedMovies}
+              onSaveMovie={onSaveMovie}
               savedMovieList={savedMovieList}
               onRemoveSaveMovie={onRemoveSaveMovie}
+              filteredSavedMovieList={filteredSavedMovieList}
             />
           );
         })

@@ -26,6 +26,7 @@ function App() {
   const [isNotFound, setIsNotFound] = useState(false);
   const [errorLoaded, setErrorLoaded] = useState(false);
   const [movieSearch, setMovieSearch] = useState('');
+  const [savedMovieSearch, setSavedMovieSearch] = useState('');
   const [savedMovieList, setSavedMovieList] = useState([]);
   const [userData, setUserData] = useState('');
   const [filteredMovies, setFilteredMovies] = useState([]);
@@ -62,8 +63,16 @@ function App() {
     setMovieSearch(e.target.value);
   };
 
+  const handleSavedMovieInput = (e) => {
+    setSavedMovieSearch(e.target.value);
+  };
+
   const addFilteredMovie = (value) => {
     setFilteredMovies(value);
+  };
+
+  const updateFilteredSavedMovies = (value) => {
+    setFilteredSavedMovieList(value);
   };
 
   const register = (data) => {
@@ -96,7 +105,7 @@ function App() {
   };
 
   const tokenCheck = () => {
-    let token = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     if (token) {
       return mainMovieApi
         .checkTokenValidity(token)
@@ -130,25 +139,25 @@ function App() {
       .catch((err) => console.log(`${err.status}: ${err.message}`));
   };
 
-  let localStorageMovies = JSON.parse(localStorage.getItem('movieStorageList'));
-
-  const updateFilteredSavedMovies = (value) => {
-    setFilteredSavedMovieList(value);
-  };
+  const localStorageMovies = JSON.parse(
+    localStorage.getItem('movieStorageList')
+  );
 
   const saveMovie = (movie) => {
-    return mainMovieApi
-      .addToSavedMovies(movie)
-      .then((savedMovie) => {
-        setSavedMovieList([savedMovie, ...savedMovieList]);
-        setFilteredSavedMovieList(savedMovie, ...filteredSavedMovieList);
-      })
-      .catch((err) => console.log(`${err.status}: ${err.message}`));
+    if (movie.nameRU !== savedMovieList.some((item) => item.nameRU)) {
+      return mainMovieApi
+        .addToSavedMovies(movie)
+        .then((savedMovie) => {
+          setSavedMovieList([savedMovie, ...savedMovieList]);
+          setFilteredSavedMovieList(savedMovie, ...filteredSavedMovieList);
+        })
+        .catch((err) => console.log(`${err.status}: ${err.message}`));
+    }
   };
 
   const removeSaveMovie = (movieId) => {
     return mainMovieApi
-      .removeSaveMovie(movieId)
+      .removeSaveMovie(movieId || movieId._id)
       .then((deletedMovie) => {
         const updateMovieList = savedMovieList.filter(
           (i) => i._id !== deletedMovie._id
@@ -195,7 +204,11 @@ function App() {
         <CurrentUserContext.Provider value={currentUser}>
           <div className='page'>
             <Header onNavBar={onNavBar} loggedIn={loggedIn} />
-            <Navigation isOpened={isOpened} onClosed={setNavbarClosed} />
+            <Navigation
+              isOpened={isOpened}
+              onClosed={setNavbarClosed}
+              currentUser={currentUser}
+            />
             <Switch>
               <Route exact path='/' component={Main} />
 
@@ -219,6 +232,7 @@ function App() {
 
               <ProtectedRoute
                 path='/movies'
+                currentUser={currentUser}
                 component={Movies}
                 loggedIn={loggedIn}
                 windowWidth={windowWidth}
@@ -241,12 +255,16 @@ function App() {
 
               <ProtectedRoute
                 path='/saved-movies'
+                currentUser={currentUser}
                 component={SavedMovies}
                 loggedIn={loggedIn}
                 windowWidth={windowWidth}
-                filteredMovies={filteredSavedMovieList}
+                filteredSavedMovieList={filteredSavedMovieList}
                 updateFilteredSavedMovies={updateFilteredSavedMovies}
+                onSaveMovie={saveMovie}
+                handleSavedMovieInput={handleSavedMovieInput}
                 savedMovies={true}
+                savedMovieSearch={savedMovieSearch}
                 savedMovieList={savedMovieList}
                 onRemoveSaveMovie={removeSaveMovie}
               />

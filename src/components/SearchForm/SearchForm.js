@@ -3,13 +3,17 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function SearchForm({
   handleMovieInput,
+  handleSavedMovieInput,
   value,
   movieList,
+  savedMovieList,
   addFilteredMovie,
   movieSearchError,
+  savedMovies,
+  savedMovieSearch,
+  updateFilteredSavedMovies,
 }) {
   const [checkForShortness, setCheckForShortness] = useState(false);
-
   const checkBoxToggle = () => {
     setCheckForShortness(!checkForShortness);
   };
@@ -19,6 +23,14 @@ function SearchForm({
       .toLowerCase()
       .includes(movieSearch.toLowerCase());
     return filtered;
+  };
+
+  const handleSavedFiltered = (savedMovieList, savedMovieSearch) => {
+    console.log(savedMovieSearch);
+    const savedFiltered = savedMovieList.nameRU
+      .toLowerCase()
+      .includes(savedMovieSearch.toLowerCase());
+    return savedFiltered;
   };
 
   const filteringMoviesArray = (movieList, value) => {
@@ -35,9 +47,25 @@ function SearchForm({
     }
   };
 
+  const filteringSavedMoviesArray = (savedMovieList, savedMovieSearch) => {
+    if (checkForShortness) {
+      const shortSavedMovie = savedMovieList.filter((movie) => {
+        return (
+          movie.duration <= 40 && handleSavedFiltered(movie, savedMovieSearch)
+        );
+      });
+      return shortSavedMovie;
+    } else {
+      const filteredSavedMovies = savedMovieList.filter((movie) => {
+        return handleSavedFiltered(movie, savedMovieSearch);
+      });
+      return filteredSavedMovies;
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    let filteredMoviesArray = filteringMoviesArray(movieList, value);
+    const filteredMoviesArray = filteringMoviesArray(movieList, value);
     addFilteredMovie(filteredMoviesArray);
     if (filteredMoviesArray.length === 0) {
       return <p className='movies__errorText'>Ничего не найдено</p>;
@@ -45,17 +73,37 @@ function SearchForm({
       <p className='movies__errorText'>{movieSearchError}</p>;
     }
   };
+
+  const handleSubmitSaved = (e) => {
+    e.preventDefault();
+    let filteredSavedMoviesArray = filteringSavedMoviesArray(
+      savedMovieList,
+      savedMovieSearch
+    );
+    updateFilteredSavedMovies(filteredSavedMoviesArray);
+    console.log(filteredSavedMoviesArray);
+    if (filteredSavedMoviesArray.length === 0) {
+      return <p className='movies__errorText'>Ничего не найдено</p>;
+    } else if (savedMovieSearch === '') {
+      <p className='movies__errorText'>{movieSearchError}</p>;
+    }
+  };
+
   return (
     <>
       <section className='search'>
-        <form className='search__form' onSubmit={handleSubmit} noValidate>
+        <form
+          className='search__form'
+          onSubmit={savedMovies ? handleSubmitSaved : handleSubmit}
+          noValidate
+        >
           <input
             type='text'
             name='movie'
             className='search__input'
             placeholder='Фильм'
-            value={value}
-            onChange={handleMovieInput}
+            value={savedMovies ? savedMovieSearch : value}
+            onChange={savedMovies ? handleSavedMovieInput : handleMovieInput}
             required
           />
           <button type='submit' className='search__button'>

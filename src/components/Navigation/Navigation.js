@@ -1,19 +1,27 @@
 import { Link } from 'react-router-dom';
 
-function Navigation({ isOpened, onClosed }) {
+function Navigation({ isOpened, onClosed, currentUser }) {
   return (
     <div className={`slideMenu ${isOpened ? 'slideMenu_is-opened' : ''}`}>
       <div className='slideMenu__container'>
         <button className='slideMenu__close' type='button' onClick={onClosed} />
         <nav className='auth-header__movie-container auth-header__movie-container_burger'>
-          <Link to='/' className='auth-header__burger-link'>
+          <Link to='/' className='auth-header__burger-link' onClick={onClosed}>
             Главная
           </Link>
-          <Link to='/movies' className='auth-header__burger-link'>
+          <Link
+            to='/movies'
+            className='auth-header__burger-link'
+            onClick={onClosed}
+          >
             Фильмы
           </Link>
           <hr className='auth-header__burger-line' />
-          <Link to='/saved-movies' className='auth-header__burger-link'>
+          <Link
+            to='/saved-movies'
+            className='auth-header__burger-link'
+            onClick={onClosed}
+          >
             Сохранённые фильмы
           </Link>
         </nav>

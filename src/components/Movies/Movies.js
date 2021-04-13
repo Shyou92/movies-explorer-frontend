@@ -37,7 +37,6 @@ function Movies({
   function numberOfMovies() {
     setAmountOfMovies(amountOfMovies + newMoviesNumber);
   }
-
   return (
     <>
       <SearchForm
