@@ -81,7 +81,6 @@ function SearchForm({
       savedMovieSearch
     );
     updateFilteredSavedMovies(filteredSavedMoviesArray);
-    console.log(filteredSavedMoviesArray);
     if (filteredSavedMoviesArray.length === 0) {
       return <p className='movies__errorText'>Ничего не найдено</p>;
     } else if (savedMovieSearch === '') {

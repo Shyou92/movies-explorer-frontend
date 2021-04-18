@@ -80,7 +80,6 @@ function App() {
     return mainMovieApi
       .register(name, email, password)
       .then((res) => {
-        console.log(res);
         if (res) {
           const userData = { email: res.data.email, password };
           return login(userData);
@@ -130,6 +129,7 @@ function App() {
     history.push('/signin');
     setLoggedIn(false);
     setUserData('');
+    setCurrentUser(null);
   };
 
   const handleUpdateUserInfo = (userInfo) => {
@@ -169,29 +169,45 @@ function App() {
   };
 
   useEffect(() => {
+    let isMounted = true;
     Promise.all([
       mainMovieApi.getUserInfo(),
       mainMovieApi.getSavedMovies(),
       movieApi.getMovies(),
     ])
       .then(([userData, savedMovieList, movieList]) => {
-        let movieArrayList = [];
-        const setMovieArrayList = () => {
-          if (!localStorage.getItem('movieStorageList')) {
-            localStorage.setItem('movieStorageList', JSON.stringify(movieList));
-          } else {
-            localStorage.removeItem('movieStorageList');
-            localStorage.setItem('movieStorageList', JSON.stringify(movieList));
-          }
-          movieArrayList = JSON.parse(localStorage.getItem('movieStorageList'));
-          return movieArrayList;
-        };
-        const [userObj] = userData;
-        handleCurrentUser(userObj);
-        setSavedMovieList(savedMovieList);
-        setMovieList(setMovieArrayList());
+        if (isMounted) {
+          let movieArrayList = [];
+          const setMovieArrayList = () => {
+            if (!localStorage.getItem('movieStorageList')) {
+              localStorage.setItem(
+                'movieStorageList',
+                JSON.stringify(movieList)
+              );
+            } else {
+              localStorage.removeItem('movieStorageList');
+              localStorage.setItem(
+                'movieStorageList',
+                JSON.stringify(movieList)
+              );
+            }
+
+            movieArrayList = JSON.parse(
+              localStorage.getItem('movieStorageList')
+            );
+            return movieArrayList;
+          };
+          const [userObj] = userData;
+          handleCurrentUser(userObj);
+          setSavedMovieList(savedMovieList);
+          setMovieList(setMovieArrayList());
+        }
       })
       .catch((err) => console.log(`Ошибка ${err.status} - ${err.statusText}`));
+
+    return () => {
+      isMounted = false;
+    };
   }, [loggedIn]);
 
   if (!permissionsChecked) {

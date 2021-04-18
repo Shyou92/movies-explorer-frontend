@@ -2,12 +2,6 @@ import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 function Login({ onLogin }) {
-  // // const [data, setData] = useState({
-  // //   email: '',
-  // //   password: '',
-  // // });
-
-  // const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailIsValid, setEmailIsValid] = useState(false);
