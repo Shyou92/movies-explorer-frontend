@@ -19,7 +19,7 @@ function Profile({ onHandleLogout, onHandleUpdateUserInfo }) {
     }
     setEmail(currentUser.email);
     setName(currentUser.name);
-  }, [currentUser]);
+  }, [currentUser, currentUser.email, currentUser.name]);
 
   useEffect(() => {
     if (emailIsValid && nameIsValid) {

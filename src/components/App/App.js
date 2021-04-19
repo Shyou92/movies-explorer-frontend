@@ -28,7 +28,7 @@ function App() {
   const [movieSearch, setMovieSearch] = useState('');
   const [savedMovieSearch, setSavedMovieSearch] = useState('');
   const [savedMovieList, setSavedMovieList] = useState([]);
-  const [userData, setUserData] = useState('');
+  const [userData, setUserData] = useState({});
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [permissionsChecked, setPermissionsChecked] = useState(false);
   const [filteredSavedMovieList, setFilteredSavedMovieList] = useState([]);
@@ -45,7 +45,7 @@ function App() {
     } else {
       setPermissionsChecked(true);
     }
-  }, []);
+  }, [userData]);
 
   const handleCurrentUser = (data) => {
     setCurrentUser(data);
@@ -96,7 +96,7 @@ function App() {
         localStorage.setItem('jwt', data.message);
         tokenCheck();
         setLoggedIn(true);
-        setUserData(userData);
+          setUserData(userData);
         history.push('/movies');
       }
       return data;
@@ -128,7 +128,7 @@ function App() {
     localStorage.removeItem('jwt');
     history.push('/signin');
     setLoggedIn(false);
-    setUserData('');
+    setUserData({});
     setCurrentUser(null);
   };
 
@@ -169,45 +169,30 @@ function App() {
   };
 
   useEffect(() => {
-    let isMounted = true;
     Promise.all([
       mainMovieApi.getUserInfo(),
       mainMovieApi.getSavedMovies(),
       movieApi.getMovies(),
     ])
       .then(([userData, savedMovieList, movieList]) => {
-        if (isMounted) {
-          let movieArrayList = [];
-          const setMovieArrayList = () => {
-            if (!localStorage.getItem('movieStorageList')) {
-              localStorage.setItem(
-                'movieStorageList',
-                JSON.stringify(movieList)
-              );
-            } else {
-              localStorage.removeItem('movieStorageList');
-              localStorage.setItem(
-                'movieStorageList',
-                JSON.stringify(movieList)
-              );
-            }
+        let movieArrayList = [];
+        const setMovieArrayList = () => {
+          if (!localStorage.getItem('movieStorageList')) {
+            localStorage.setItem('movieStorageList', JSON.stringify(movieList));
+          } else {
+            localStorage.removeItem('movieStorageList');
+            localStorage.setItem('movieStorageList', JSON.stringify(movieList));
+          }
 
-            movieArrayList = JSON.parse(
-              localStorage.getItem('movieStorageList')
-            );
-            return movieArrayList;
-          };
-          const [userObj] = userData;
-          handleCurrentUser(userObj);
-          setSavedMovieList(savedMovieList);
-          setMovieList(setMovieArrayList());
-        }
+          movieArrayList = JSON.parse(localStorage.getItem('movieStorageList'));
+          return movieArrayList;
+        };
+        const [userObj] = userData;
+        handleCurrentUser(userObj);
+        setSavedMovieList(savedMovieList);
+        setMovieList(setMovieArrayList());
       })
       .catch((err) => console.log(`Ошибка ${err.status} - ${err.statusText}`));
-
-    return () => {
-      isMounted = false;
-    };
   }, [loggedIn]);
 
   if (!permissionsChecked) {
