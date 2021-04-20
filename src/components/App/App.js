@@ -96,7 +96,8 @@ function App() {
         localStorage.setItem('jwt', data.message);
         tokenCheck();
         setLoggedIn(true);
-          setUserData(userData);
+        mainMovieApi.updateToken(data.message);
+        setUserData(userData);
         history.push('/movies');
       }
       return data;

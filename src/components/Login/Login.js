@@ -68,8 +68,8 @@ function Login({ onLogin }) {
       .then((res) => {
         return res;
       })
-      .then(() => history.push('/movies'))
-      .finally(() => resetInputs())
+      .then(() => resetInputs())
+      .finally(() => history.push('/movies'))
       .catch((err) => console.log(`Ошибка ${err.status}: ${err.message}`));
   };
   return (

@@ -1,5 +1,5 @@
 const BASE_MAIN_URL = 'https://api.inmovies.students.nomoredomains.rocks';
-const token = localStorage.getItem('jwt');
+let token = localStorage.getItem('jwt');
 
 function responce(res) {
   if (res.ok) {
@@ -86,6 +86,10 @@ export const removeSaveMovie = (movie) => {
   })
     .then(responce)
     .catch((err) => console.log(`Ошибка ${err.status} : ${err.message}`));
+};
+
+export const updateToken = (newToken) => {
+  return (token = newToken);
 };
 
 export const checkTokenValidity = (token) => {
