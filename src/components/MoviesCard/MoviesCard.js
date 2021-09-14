@@ -1,6 +1,7 @@
 import noImage from '../../images/NoImage.png';
 
 function MoviesCard(item) {
+
   const movieCard = item.card;
   const savedMovieName = item.savedMovieList.some(
     (item) => item.nameRU === movieCard.nameRU

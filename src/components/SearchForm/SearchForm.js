@@ -26,7 +26,6 @@ function SearchForm({
   };
 
   const handleSavedFiltered = (savedMovieList, savedMovieSearch) => {
-    console.log(savedMovieSearch);
     const savedFiltered = savedMovieList.nameRU
       .toLowerCase()
       .includes(savedMovieSearch.toLowerCase());
