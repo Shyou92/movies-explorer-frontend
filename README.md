@@ -22,7 +22,7 @@
 
 Главная страница (HelloWorld):
 
-![HelloWorldPage](HelloWorldPage.png)
+![HelloWorldPage](./screenshots/HelloWorldPage.png)
 
 
 О Проекте:
@@ -71,7 +71,7 @@
 
 Добавление в сохренённые фильмы:
 
-![AddToSave](AddToSaveMovieList.png)
+![AddToSave](AddToSavedMovieList.png)
 
 
 Сохранённые фильмы (с фильмами):
