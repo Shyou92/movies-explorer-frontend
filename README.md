@@ -18,6 +18,72 @@
 * React.js
 * Git
 
-Адрес фронтенда : https://inmovies.students.nomoredomains.rocks
-Адрес бекенда : https://api.inmovies.students.nomoredomains.rocks
-To run project use: npm run start.
+Скриншоты проекта:
+
+Главная страница (HelloWorld):
+
+![HelloWorldPage](HelloWorldPage.png)
+
+
+О Проекте:
+
+![About](AboutProject.png)
+
+
+Технологии:
+
+![Techs](Techs.png)
+
+
+О студенте:
+
+![Student](Student.png)
+
+
+Регистрация:
+
+![SignUpPage](SignUpPage.png)
+
+
+Регистрация, ошибки:
+
+![Error](SignUpErrors.png)
+
+
+Главная страница (фильмотека):
+
+![Mainpage](MainPage.png)
+
+
+Список фильмов:
+
+![MovieList](MovieList.png)
+
+
+Список короткометражек:
+
+![ShortMovieList](ShortMovieList.png)
+
+Сохранённые фильмы (пустой):
+
+![SavedMovieEmpty](SavedMovieEmpty.png)
+
+
+Добавление в сохренённые фильмы:
+
+![AddToSave](AddToSaveMovieList.png)
+
+
+Сохранённые фильмы (с фильмами):
+
+![AddedToSave](AddedToSaveMovieList.png)
+
+
+Список фильмов (адаптив):
+
+![MovieListAdaptive](MovieListAdaptive.png)
+
+
+Бургер меню (адаптив): 
+
+![Burger](BurgerMenuAdaptive.png)
