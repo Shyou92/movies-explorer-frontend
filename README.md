@@ -69,7 +69,7 @@
 ![SavedMovieEmpty](SavedMovieEmpty.png)
 
 
-Добавление в сохренённые фильмы:
+Добавление в сохранённые фильмы:
 
 ![AddToSave](AddToSaveMovieList.png)
 
