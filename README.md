@@ -22,7 +22,7 @@
 
 Главная страница (HelloWorld):
 
-![HelloWorldPage](./screenshots/HelloWorldPage.png)
+![HelloWorldPage](HelloWorldPage.png)
 
 
 О Проекте:
@@ -71,12 +71,12 @@
 
 Добавление в сохренённые фильмы:
 
-![AddToSave](AddToSavedMovieList.png)
+![AddToSave](AddToSaveMovieList.png)
 
 
 Сохранённые фильмы (с фильмами):
 
-![AddedToSave](AddedToSaveMovieList.png)
+![AddedToSave](AddedToSavedMovieList.png)
 
 
 Список фильмов (адаптив):
